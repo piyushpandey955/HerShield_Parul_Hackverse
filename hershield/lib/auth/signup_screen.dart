@@ -1,8 +1,6 @@
 
 
-// import 'package:hershield/home_screen.dart';
 // import 'package:hershield/screens/profile_screen.dart';
-
 // import 'auth_service.dart';
 // import 'login_screen.dart';
 // import '../widgets/button.dart';
@@ -87,23 +85,25 @@
 //         MaterialPageRoute(builder: (context) => const LoginScreen()),
 //       );
 
-//   goToHome(BuildContext context) => Navigator.push(
+//   goToProfile(BuildContext context) => Navigator.push(
 //         context,
-//         MaterialPageRoute(builder: (context) => const HomeScreen()),
+//         MaterialPageRoute(builder: (context) => const ProfileScreen()),
 //       );
 
 //   _signup() async {
-//       await _auth.createUserWithEmailAndPassword(_email.text, _password.text);
-//         Navigator.pop(context);
+//     await _auth.createUserWithEmailAndPassword(_email.text, _password.text);
+//     // After successful signup, navigate to Profile Screen
+//     goToProfile(context);
 //   }
 // }
 
+import 'package:flutter/material.dart';
 import 'package:hershield/screens/profile_screen.dart';
 import 'auth_service.dart';
 import 'login_screen.dart';
+import '../screens/personality_test_screen.dart';
 import '../widgets/button.dart';
 import '../widgets/textfield.dart';
-import 'package:flutter/material.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -161,7 +161,7 @@ class _SignupScreenState extends State<SignupScreen> {
             const SizedBox(height: 30),
             CustomButton(
               label: "Signup",
-              onPressed: _signup,
+              onPressed: _navigateToPersonalityTest,
             ),
             const SizedBox(height: 5),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -178,19 +178,54 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  goToLogin(BuildContext context) => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
+  void _navigateToPersonalityTest() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PersonalityTestScreen(
+          onTestComplete: (int score) async {
+            if (score >= 28) {
+              // If the test score is satisfactory, proceed with signup
+              await _signup();
+            } else {
+              // Show a message and ask the user to retake the test
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Please retake the personality test to continue."),
+                ),
+              );
+            }
+          },
+        ),
+      ),
+    );
+  }
 
-  goToProfile(BuildContext context) => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const ProfileScreen()),
+  Future<void> _signup() async {
+    try {
+      await _auth.createUserWithEmailAndPassword(_email.text, _password.text);
+      // Navigate to Profile Screen after successful signup
+      goToProfile(context);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Signup failed: ${e.toString()}"),
+        ),
       );
+    }
+  }
 
-  _signup() async {
-    await _auth.createUserWithEmailAndPassword(_email.text, _password.text);
-    // After successful signup, navigate to Profile Screen
-    goToProfile(context);
+  void goToLogin(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
+  }
+
+  void goToProfile(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ProfileScreen()),
+    );
   }
 }
