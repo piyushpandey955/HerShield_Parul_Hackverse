@@ -9,22 +9,13 @@ class FirebaseService {
   Future<void> updateUserLocation(String userId, double latitude, double longitude) async {
     try {
       String? token = await saveTokenToDatabase();
-      if(token != null){
-        await _database.child('users').child(userId).update({
-        'latitude': latitude,
-        'longitude': longitude,
-        'fcmToken': token,
-        'timestamp': DateTime.now().toIso8601String(),
-      });
-      }
-      else{
-        await _database.child('users').child(userId).update({
-        'latitude': latitude,
-        'longitude': longitude,
-        'timestamp': DateTime.now().toIso8601String(),
-      });
-      }
-      
+      await _database.child('users').child(userId).update({
+      'latitude': latitude,
+      'longitude': longitude,
+      'fcmToken': token,
+      'timestamp': DateTime.now().toIso8601String(),
+    });
+          
       print("User location updated successfully.");
     } catch (e) {
       print("Error updating user location: $e");

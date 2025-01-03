@@ -18,17 +18,15 @@ Future<String?> saveTokenToDatabase() async {
     // Get the FCM token
     String? token = await FirebaseMessaging.instance.getToken();
 
-    if (token != null) {
-      // Reference to Realtime Database
-      DatabaseReference databaseRef = FirebaseDatabase.instance.ref();
+    // Reference to Realtime Database
+    DatabaseReference databaseRef = FirebaseDatabase.instance.ref();
 
-      // Save the token in the user's node
-      await databaseRef.child('users/$uid/fcmToken').set(token);
+    // Save the token in the user's node
+    await databaseRef.child('users/$uid/fcmToken').set(token);
 
-      print("FCM Token saved to database: $token");
-      return token;
+    print("FCM Token saved to database: $token");
+    return token;
     }
-  }
 
   FirebaseMessaging.instance.onTokenRefresh.listen((newToken) async {
       User? user = FirebaseAuth.instance.currentUser;
