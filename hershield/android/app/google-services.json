@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "390533213117",
+    "firebase_url": "https://hershield-605f6-default-rtdb.firebaseio.com",
+    "project_id": "hershield-605f6",
+    "storage_bucket": "hershield-605f6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390533213117:android:35ea1167cc0da652dd80d4",
+        "android_client_info": {
+          "package_name": "com.example.hershield"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "390533213117-in5gl8fuc8nat88elcesd95fqdr7erhk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASBzEZ7IM748MVihSKQ4OlUDPVAcGL3X0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "390533213117-in5gl8fuc8nat88elcesd95fqdr7erhk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
