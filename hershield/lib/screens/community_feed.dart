@@ -100,6 +100,7 @@ class _CommunityFeedState extends State<CommunityFeed> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Community Feed"),
+        centerTitle: true,
       ),
       body: Column(
         children: [
