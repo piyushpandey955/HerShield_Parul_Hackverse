@@ -18,38 +18,38 @@ class AuthService {
   //   return null;
   // }
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  // final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  Future<User?> signInWithGoogle() async {
-    try {
-      // Trigger the Google authentication flow
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+  // Future<User?> signInWithGoogle() async {
+  //   try {
+  //     // Trigger the Google authentication flow
+  //     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
-      if (googleUser == null) {
-        // The user canceled the sign-in
-        return null;
-      }
+  //     if (googleUser == null) {
+  //       // The user canceled the sign-in
+  //       return null;
+  //     }
 
-      // Obtain the Google authentication details
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+  //     // Obtain the Google authentication details
+  //     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
-      // Create a credential for Firebase
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
+  //     // Create a credential for Firebase
+  //     final credential = GoogleAuthProvider.credential(
+  //       accessToken: googleAuth.accessToken,
+  //       idToken: googleAuth.idToken,
+  //     );
 
-      // Sign in to Firebase with the credential
-      final UserCredential userCredential = await _auth.signInWithCredential(credential);
+  //     // Sign in to Firebase with the credential
+  //     final UserCredential userCredential = await _auth.signInWithCredential(credential);
 
-      return userCredential.user;
-    } 
-    catch (e) {
-      print('Error during Google Sign-In: $e');
-      return null;
-    }
+  //     return userCredential.user;
+  //   } 
+  //   catch (e) {
+  //     print('Error during Google Sign-In: $e');
+  //     return null;
+  //   }
 
-  }
+  // }
 
   Future<User?> createUserWithEmailAndPassword(
       String email, String password) async {
