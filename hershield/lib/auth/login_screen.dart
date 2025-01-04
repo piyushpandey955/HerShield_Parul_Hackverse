@@ -58,15 +58,15 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: _login,
             ),
             const SizedBox(height: 10,),
-            SizedBox(
-              width: 230, // Makes the button span the full width of its parent
-              child: CustomButton(
-                label: "Continue With Google",
-                onPressed: () async {
-                  await _auth.signInWithGoogle();
-                },
-              ),
-            ),
+            // SizedBox(
+            //   width: 230, // Makes the button span the full width of its parent
+            //   child: CustomButton(
+            //     label: "Continue With Google",
+            //     onPressed: () async {
+            //       await _auth.signInWithGoogle();
+            //     },
+            //   ),
+            // ),
             const SizedBox(height: 5),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               const Text("Don't have an account? "),
