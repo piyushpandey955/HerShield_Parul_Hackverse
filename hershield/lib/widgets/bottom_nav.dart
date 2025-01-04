@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hershield/screens/chat_screen.dart';
 import 'package:hershield/screens/userprofile_screen.dart';
 import '../home_screen.dart';
 import '../screens/map_screen.dart';
@@ -17,7 +18,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const UserProfileScreen(), // User profile screen
     const HomeScreen(),   // Panic screen (home)
     const MapScreen(),   // Area profiling screen
-    const CommunityFeed(), // Community feed screen (blank for now)
+    const CommunityFeed(),// Community feed screen (blank for now)
+    ChatScreen() ,
   ];
 
   void _onItemTapped(int index) {
@@ -50,6 +52,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.feed),
             label: 'Community',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_moderator_sharp),
+            label: 'Arya AI',
           ),
         ],
       ),
