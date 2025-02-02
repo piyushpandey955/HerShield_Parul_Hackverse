@@ -19,7 +19,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const HomeScreen(),   // Panic screen (home)
     const MapScreen(),   // Area profiling screen
     const CommunityFeed(),// Community feed screen (blank for now)
-    ChatScreen() ,
+    const ChatScreen() ,
   ];
 
   void _onItemTapped(int index) {

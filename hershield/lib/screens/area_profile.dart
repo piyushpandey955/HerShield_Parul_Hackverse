@@ -138,6 +138,7 @@ class _AreaProfileScreenState extends State<AreaProfileScreen> {
     _fetchAreaDetails(widget.tappedLocation);
   }
 
+  String tappedCity = "";
   Future<void> _fetchAreaDetails(LatLng tappedLocation) async {
     final DatabaseReference usersRef = FirebaseDatabase.instance.ref('users');
     try {
@@ -167,6 +168,7 @@ class _AreaProfileScreenState extends State<AreaProfileScreen> {
 
         // Fetch crime data for the city using the API
         final String city = await _getCityFromCoordinates(tappedLocation); // Await the city name
+        tappedCity = city;
         final int crimeCount = await _fetchCrimeData(city);
 
         // Dynamically calculate threat percentage
@@ -186,6 +188,7 @@ class _AreaProfileScreenState extends State<AreaProfileScreen> {
     }
   }
 
+  int totalCrimes = 0;
   Future<int> _fetchCrimeData(String city) async {
     print(city);
     try {
@@ -214,7 +217,7 @@ class _AreaProfileScreenState extends State<AreaProfileScreen> {
         //   }
         // }
 
-        int totalCrimes = 0;
+        totalCrimes = 0;
         for (var record in data['records']) {
           if (record['city_col_2_'].toString().toLowerCase().contains(city.toLowerCase()) == true) {
             for (var entry in record.entries) {
@@ -285,6 +288,33 @@ class _AreaProfileScreenState extends State<AreaProfileScreen> {
     return latDiff <= areaRadius && lngDiff <= areaRadius;
   }
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(title: const Text('Area Profile')),
+  //     body: isLoading
+  //         ? const Center(child: CircularProgressIndicator())
+  //         : Padding(
+  //             padding: const EdgeInsets.all(16.0),
+  //             child: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 const Text(
+  //                   'Area Details',
+  //                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+  //                 ),
+  //                 const SizedBox(height: 16),
+  //                 Text('Males: $maleCount'),
+  //                 Text('Females: $femaleCount'),
+  //                 Text('City: $tappedCity'),
+  //                 Text('Total Crimes: $totalCrimes'),
+  //                 Text('Threat Percentage: $threatPercentage%'),
+  //               ],
+  //             ),
+  //           ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -297,13 +327,50 @@ class _AreaProfileScreenState extends State<AreaProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Area Details',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    'Area Profile Details',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blue),
                   ),
                   const SizedBox(height: 16),
-                  Text('Males: $maleCount'),
-                  Text('Females: $femaleCount'),
-                  Text('Threat Percentage: $threatPercentage%'),
+                  Card(
+                    elevation: 4,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: ListTile(
+                      leading: const Icon(Icons.location_city, color: Colors.blue),
+                      title: Text('City: $tappedCity', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                    ),
+                  ),
+                  Card(
+                    elevation: 4,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: ListTile(
+                      leading: const Icon(Icons.male, color: Colors.blue),
+                      title: Text('Males: $maleCount', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                    ),
+                  ),
+                  Card(
+                    elevation: 4,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: ListTile(
+                      leading: const Icon(Icons.female, color: Colors.pink),
+                      title: Text('Females: $femaleCount', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                    ),
+                  ),
+                  Card(
+                    elevation: 4,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: ListTile(
+                      leading: const Icon(Icons.report_problem, color: Colors.red),
+                      title: Text('Total Crimes: $totalCrimes', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                    ),
+                  ),
+                  Card(
+                    elevation: 4,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: ListTile(
+                      leading: const Icon(Icons.security, color: Colors.orange),
+                      title: Text('Threat Percentage: $threatPercentage%', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -311,135 +378,3 @@ class _AreaProfileScreenState extends State<AreaProfileScreen> {
   }
 }
 
-
-
-// import 'package:flutter/material.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import 'package:http/http.dart' as http;
-// import 'package:flutter/services.dart' show rootBundle;
-// import 'dart:convert';
-
-// class AreaProfileScreen extends StatefulWidget {
-//   final LatLng tappedLocation;
-
-//   const AreaProfileScreen({super.key, required this.tappedLocation});
-
-//   @override
-//   _AreaProfileScreenState createState() => _AreaProfileScreenState();
-// }
-
-// class _AreaProfileScreenState extends State<AreaProfileScreen> {
-//   int threatPercentage = 0;
-//   bool isLoading = true;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _fetchAreaDetails(widget.tappedLocation);
-//   }
-
-//   Future<void> _fetchAreaDetails(LatLng tappedLocation) async {
-//     setState(() {
-//       isLoading = true;
-//     });
-
-//     try {
-//       final String city = await _getCityFromCoordinates(tappedLocation);
-//       final Map<String, dynamic> crimeData = await _loadCrimeData();
-//       final int crimeCount = _calculateCityCrimeCount(city, crimeData);
-//       final int localThreatPercentage = _calculateThreatPercentage(crimeCount);
-
-//       setState(() {
-//         threatPercentage = localThreatPercentage;
-//         isLoading = false;
-//       });
-//     } catch (e) {
-//       print('Error fetching area details: $e');
-//       setState(() {
-//         isLoading = false;
-//       });
-//     }
-//   }
-
-//   Future<String> _getCityFromCoordinates(LatLng location) async {
-//     const String apiKey = 'AIzaSyBwJzPcmVaSXsbhBH8wZRwLouOyIgOunmI'; // Replace with actual API key
-//     final String apiUrl =
-//         'https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.latitude},${location.longitude}&key=$apiKey';
-
-//     try {
-//       final response = await http.get(Uri.parse(apiUrl));
-
-//       if (response.statusCode == 200) {
-//         final data = json.decode(response.body);
-
-//         if (data['status'] == 'OK') {
-//           for (var component in data['results'][0]['address_components']) {
-//             if (component['types'].contains('locality')) {
-//               return component['long_name']; // Return the city name
-//             }
-//           }
-//           return 'Unknown City'; // Fallback if city not found
-//         } else {
-//           throw Exception('Geocoding API Error: ${data['status']}');
-//         }
-//       } else {
-//         throw Exception('HTTP Request Error: ${response.statusCode}');
-//       }
-//     } catch (e) {
-//       throw Exception('Exception during reverse geocoding: $e');
-//     }
-//   }
-
-//   Future<Map<String, dynamic>> _loadCrimeData() async {
-//     try {
-//       final String rawData = await rootBundle.loadString('/Users/piyushpandey955/Desktop/HerShield_Parul_Hackverse/hershield/assets/response_1735942190121.json');
-//       return json.decode(rawData);
-//     } catch (e) {
-//       throw Exception('Error loading crime data: $e');
-//     }
-//   }
-
-//   int _calculateCityCrimeCount(String city, Map<String, dynamic> crimeData) {
-//     int totalCrimes = 0;
-
-//     for (var record in crimeData['records']) {
-//       if (record['city_col_2_'] == city) {
-//         for (var key in record.keys) {
-//           if (key.startsWith('ipc_') && record[key] is int) {
-//             totalCrimes += record[key] as int;
-//           }
-//         }
-//       }
-//     }
-
-//     return totalCrimes;
-//   }
-
-//   int _calculateThreatPercentage(int crimes) {
-//     const int basePopulation = 10000; // Placeholder for normalization
-//     return ((crimes / basePopulation) * 100).toInt();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text('Area Profile')),
-//       body: isLoading
-//           ? const Center(child: CircularProgressIndicator())
-//           : Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   const Text(
-//                     'Area Details',
-//                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//                   ),
-//                   const SizedBox(height: 16),
-//                   Text('Threat Percentage: $threatPercentage%'),
-//                 ],
-//               ),
-//             ),
-//     );
-//   }
-// }
