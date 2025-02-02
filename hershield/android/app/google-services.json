@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "390533213117-4t1af6bsmj9em3ovt01qkrhprjcv5tcg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hershield",
+            "certificate_hash": "9aa468b92902ab3ea96cf9c6514da605807edac8"
+          }
+        },
+        {
           "client_id": "390533213117-in5gl8fuc8nat88elcesd95fqdr7erhk.apps.googleusercontent.com",
           "client_type": 3
         }
