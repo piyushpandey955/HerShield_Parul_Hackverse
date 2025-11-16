@@ -11,3 +11,10 @@ Our mission is to create a secure environment where women feel empowered to live
 This repository contains the source code, documentation, and resources for the HerShield application. Together, we can make safety accessible and reliable for everyone.  
 
 ## Let’s build a safer tomorrow with HerShield!
+
+
+![6](https://github.com/user-attachments/assets/ed1d9c11-6af9-49a1-8406-d0088641efa6)
+![7](https://github.com/user-attachments/assets/c44c8fb5-5adc-4f66-8ac8-20a659ddef3c)
+
+##DEMO PRODUCT VIDEO
+https://youtu.be/StGZBGjgtIA
