@@ -1,6 +1,4 @@
 
-
-
 import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -11,7 +9,7 @@ import 'wrapper.dart'; // Wrapper for determining the initial screen
 
 // Handling background notifications
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("Handling background message: ${message.messageId}");
+  // Background message received: ${message.messageId}
 }
 
 Future<void> main() async {

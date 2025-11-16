@@ -47,3 +47,5 @@ assets/hershield-605f6-firebase-adminsdk-600h1-6bac258d74.json
 
 
 .env
+**/android/key.properties
+**/upload-keystore.jks
